@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EvidencePojisteni", "EvidencePojisteni\EvidencePojisteni.csproj", "{FAFDE7D1-37CF-47FB-86D4-3FF0759CAAD3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FAFDE7D1-37CF-47FB-86D4-3FF0759CAAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAFDE7D1-37CF-47FB-86D4-3FF0759CAAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAFDE7D1-37CF-47FB-86D4-3FF0759CAAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAFDE7D1-37CF-47FB-86D4-3FF0759CAAD3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9D958F5D-31C6-4FC6-8D3D-982EE0308A9D}
+	EndGlobalSection
+EndGlobal

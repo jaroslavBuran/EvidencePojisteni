@@ -1,0 +1,53 @@
+﻿@model IEnumerable<AppUser>
+
+@{
+    ViewBag.Title = "Klienti";
+}
+
+<h1>Klienti</h1>
+
+@if (Model.Any()){
+    <a class="btn btn-primary" asp-controller="Account" asp-action="Register">Přidat klienta</a>
+
+    foreach (var user in Model)
+    {
+        <div class="card">
+            <div class="card-header">
+                Id klienta: @user.Id
+            </div>
+            <div class="card-body">
+                @user.FirstName @user.LastName
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-outline-info" asp-controller="Account" asp-action="Detail" asp-route-id="@user.Id">Detail</a>
+                <form asp-controller="Account" asp-action="Delete" asp-route-id="@user.Id" method="post">
+                    <a class="btn btn-outline-success" asp-controller="Account" asp-action="Edit" asp-route-id="@user.Id">Upravit</a>
+                    <span id="confirmDeleteSpan_@user.Id" style="display:none">
+                        <span class="font-weight-bold">Opravdu chcete daného klienta odstranit?</span>
+                        <button type="submit" class="btn btn-outline-danger">Ano</button>
+                        <a href="#" class="btn btn-outline-primary" onclick="confirmDelete('@user.Id',false)">Ne</a>
+                    </span>
+
+                    <span id="deleteSpan_@user.Id">
+                        <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@user.Id',true)">Odstranit</a>
+                    </span>
+                </form>
+                
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            Žádní klienti k dispozici!
+        </div>
+        <a class="btn btn-primary" asp-controller="Clients" asp-action="Create">Přidat klienta</a>
+    </div>
+
+}
+
+@section Scripts{
+    <script src="~/js/deleteConfirm.js"></script>
+}

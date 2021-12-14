@@ -1,0 +1,54 @@
+﻿@model IEnumerable<EvidencePojisteni.Models.Products.Product>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@item.ProductId" method="post">
+                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@item.ProductId">Upravit</a>
+                    <a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.ProductId">Detaily</a> 
+                    <span id="confirmDeleteSpan_@item.ProductId" style="display:none">
+                        <span class="font-weight-bold">Opravdu chcete odstranit tento produkt?</span>
+                        <button type="submit" class="btn btn-outline-danger">Ano</button>
+                        <a href="#" class="btn btn-outline-primary" onclick="confirmDelete('@item.ProductId',false)">Ne</a>
+                    </span>
+
+                    <span id="deleteSpan_@item.ProductId">
+                        <a href="#" class="btn btn-outline-danger" onclick="confirmDelete('@item.ProductId',true)">Odstranit</a>
+                    </span>
+                </form>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts{
+    <script src="~/js/deleteConfirm.js"></script>
+}

@@ -1,0 +1,37 @@
+﻿@model EvidencePojisteni.Models.Products.ProductDetailViewModel
+
+<div class="card">
+            <div class="card-header">
+                Id produktu: @Html.DisplayFor(model => model.ProductId)
+            </div>
+            <div class="card-body">
+                @Html.DisplayFor(model => model.Title) 
+                @Html.DisplayFor(model => model.Description)
+                @Html.DisplayFor(model => model.UserId)
+            </div>
+            <div class="card-footer">
+                @if (this.User.IsInRole("admin"))
+                {
+                    <form asp-action="Delete" asp-route-id="@Model.ProductId" method="post">
+                    <a class="btn btn-outline-success" asp-action="Edit" asp-route-id="@Model.ProductId">Upravit</a>
+                    <span id="confirmDeleteSpan" style="display:none">
+                        <span class="font-weight-bold">Opravdu chcete odstranit svůj účet?</span>
+                        <button type="submit" class="btn btn-outline-danger">Ano</button>
+                        <a href="#" class="btn btn-outline-primary" onclick="confirmSelfDelete(false)">Ne</a>
+                    </span>
+
+                    <span id="deleteSpan">
+                        <a href="#" class="btn btn-outline-danger" onclick="confirmSelfDelete(true)">Odstranit</a>
+                    </span>
+                </form>
+                }
+            </div>
+        </div>
+
+
+  
+<a asp-controller="Home" asp-action="Index">Domů</a>
+
+@section Scripts{
+    <script src="~/js/deleteConfirm.js"></script>
+}
