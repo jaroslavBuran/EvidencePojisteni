@@ -1,0 +1,45 @@
+﻿@model EvidencePojisteni.Models.Events.EventInfoViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+@using (Html.BeginForm("Index", "Events"))
+{
+  @Html.DropDownListFor(s => s.SelectedItem, ViewBag.Users as SelectList)
+      <input type="submit"/>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@if (Model != null)
+{
+    <p>@Model.EventId</p>
+    <p>@Model.EventName</p>
+    <p>@Model.EventDescription</p>
+}
+else
+{
+    <p>Zatím nic bráško</p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDescription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+
+}
+    </tbody>
+</table>
