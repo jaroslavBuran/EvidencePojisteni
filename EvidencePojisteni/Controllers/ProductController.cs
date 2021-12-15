@@ -35,10 +35,21 @@ namespace EvidencePojisteni.Controllers
             return View(products);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            List<string> userDetails = new List<string>();
             var users = context.Users.ToList();
-            SelectList list = new SelectList(users,"Id","IdNumber");
+            foreach (var user in users)
+            {
+                var currentUser = await userManager.IsInRoleAsync(user, "admin");
+                if (!currentUser)
+                {
+                    userDetails.Add($"RČ: {user.IdNumber} - {user.FirstName} {user.LastName}");
+                    // bylo by možné přidávat rovnou do SelectList??????
+                }
+                
+            }
+            SelectList list = new SelectList(userDetails);
             ViewBag.AllUsers = list;
 
             return View();
@@ -49,6 +60,9 @@ namespace EvidencePojisteni.Controllers
         {
             if (ModelState.IsValid)
             {
+                string idNumber = product.UserId.Substring(4, 9);
+                product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+
                 context.Add(product);
                 await context.SaveChangesAsync(); 
                 return RedirectToAction("Index");
@@ -68,9 +82,20 @@ namespace EvidencePojisteni.Controllers
             {
                 return NotFound();
             }
+            List<string> userDetails = new List<string>();
             var users = context.Users.ToList();
-            SelectList list = new SelectList(users, "Id", "IdNumber");
-            ViewBag.UserId = list;
+            foreach (var user in users)
+            {
+                var currentUser = await userManager.IsInRoleAsync(user, "admin");
+                if (!currentUser)
+                {
+                    userDetails.Add($"RČ: {user.IdNumber} - {user.FirstName} {user.LastName}");
+                    // bylo by možné přidávat rovnou do SelectList??????
+                }
+
+            }
+            SelectList list = new SelectList(userDetails);
+            ViewBag.AllUsers = list;
 
             ViewBag.returnUrl = Request.Headers["Referer"].ToString();
 
@@ -89,6 +114,9 @@ namespace EvidencePojisteni.Controllers
             {
                 try
                 {
+                    string idNumber = product.UserId.Substring(4, 9);
+                    product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+
                     context.Update(product);
                     await context.SaveChangesAsync();
                 }
