@@ -39,6 +39,7 @@ namespace EvidencePojisteni.Controllers
         {
             List<string> userDetails = new List<string>();
             var users = context.Users.ToList();
+            userDetails.Add("Pro změnu uživatele vyberte možnost níže");
             foreach (var user in users)
             {
                 var currentUser = await userManager.IsInRoleAsync(user, "admin");
@@ -60,8 +61,18 @@ namespace EvidencePojisteni.Controllers
         {
             if (ModelState.IsValid)
             {
-                string idNumber = product.UserId.Substring(4, 9);
-                product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+                if (product.UserId == "Pro změnu uživatele vyberte možnost níže")
+                {
+                    product.UserId = null;
+                    string idNumber = null;
+                }
+                else
+                {
+                    string idNumber = product.UserId.Substring(4, 9);
+                    product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+                }
+
+                
 
                 context.Add(product);
                 await context.SaveChangesAsync(); 
@@ -82,8 +93,10 @@ namespace EvidencePojisteni.Controllers
             {
                 return NotFound();
             }
+
             List<string> userDetails = new List<string>();
             var users = context.Users.ToList();
+            userDetails.Add("Pro změnu uživatele vyberte možnost níže");
             foreach (var user in users)
             {
                 var currentUser = await userManager.IsInRoleAsync(user, "admin");
@@ -114,8 +127,25 @@ namespace EvidencePojisteni.Controllers
             {
                 try
                 {
-                    string idNumber = product.UserId.Substring(4, 9);
-                    product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+                    // ! POZOR, pokud uživatel provede EDIT a nezvolí rodné číslo, původní rodné číslo u produktu se odstraní!!!!!!
+                    var obsahuje = context.Products.Where(x => x.UserId != null && x.ProductId == product.ProductId);
+
+                    
+                    if (obsahuje != null && product.UserId == "Pro změnu uživatele vyberte možnost níže")
+                    {
+                        product.UserId = null;
+                        string idNumber = null;
+                    }
+                    else if (product.UserId == "Pro změnu uživatele vyberte možnost níže")
+                    {
+                        product.UserId = context.Users.Where(x => x.Products.Contains(product)).First().Id;
+                        string idNumber = context.Users.Where(x => x.Products.Contains(product)).First().IdNumber;
+                    }
+                    else
+                    {
+                        string idNumber = product.UserId.Substring(4, 9);
+                        product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+                    }
 
                     context.Update(product);
                     await context.SaveChangesAsync();

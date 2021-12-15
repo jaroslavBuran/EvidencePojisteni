@@ -4,14 +4,16 @@ using EvidencePojisteni.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EvidencePojisteni.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211215125613_selectedItemInEvent")]
+    partial class selectedItemInEvent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,7 +95,7 @@ namespace EvidencePojisteni.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("EvidencePojisteni.Models.InsuranceEvents.InsuranceEvent", b =>
+            modelBuilder.Entity("EvidencePojisteni.Models.Events.Event", b =>
                 {
                     b.Property<int>("EventId")
                         .ValueGeneratedOnAdd()
@@ -116,7 +118,7 @@ namespace EvidencePojisteni.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("InsuranceEvents");
+                    b.ToTable("Events");
                 });
 
             modelBuilder.Entity("EvidencePojisteni.Models.Products.Product", b =>
@@ -291,7 +293,7 @@ namespace EvidencePojisteni.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("EvidencePojisteni.Models.InsuranceEvents.InsuranceEvent", b =>
+            modelBuilder.Entity("EvidencePojisteni.Models.Events.Event", b =>
                 {
                     b.HasOne("EvidencePojisteni.Models.Products.Product", "Product")
                         .WithMany("Events")

@@ -1,5 +1,5 @@
 ﻿using EvidencePojisteni.Models;
-using EvidencePojisteni.Models.Events;
+using EvidencePojisteni.Models.InsuranceEvents;
 using EvidencePojisteni.Models.Products;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +16,7 @@ namespace EvidencePojisteni.Data
         {
         }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Event> Events { get; set; }
+        public virtual DbSet<InsuranceEvent> InsuranceEvents { get; set; }
 
         public virtual DbSet<TestModel> TestModels { get; set; }
     }
