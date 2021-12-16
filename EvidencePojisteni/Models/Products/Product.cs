@@ -1,4 +1,4 @@
-﻿using EvidencePojisteni.Models.Events;
+﻿using EvidencePojisteni.Models.InsuranceEvents;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,8 +18,10 @@ namespace EvidencePojisteni.Models.Products
         [InverseProperty("Products")]
         public virtual AppUser User { get; set; }
 
-        [InverseProperty(nameof(Event.Product))]
-        public ICollection<Event> Events { get; set; }
+        [InverseProperty(nameof(InsuranceEvent.Product))]
+        public ICollection<InsuranceEvent> Events { get; set; }
+
+
 
     }
 }

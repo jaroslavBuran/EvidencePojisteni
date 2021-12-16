@@ -35,10 +35,22 @@ namespace EvidencePojisteni.Controllers
             return View(products);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            List<string> userDetails = new List<string>();
             var users = context.Users.ToList();
-            SelectList list = new SelectList(users,"Id","IdNumber");
+            userDetails.Add("Pro změnu uživatele vyberte možnost níže");
+            foreach (var user in users)
+            {
+                var currentUser = await userManager.IsInRoleAsync(user, "admin");
+                if (!currentUser)
+                {
+                    userDetails.Add($"RČ: {user.IdNumber} - {user.FirstName} {user.LastName}");
+                    // bylo by možné přidávat rovnou do SelectList??????
+                }
+                
+            }
+            SelectList list = new SelectList(userDetails);
             ViewBag.AllUsers = list;
 
             return View();
@@ -49,6 +61,19 @@ namespace EvidencePojisteni.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (product.UserId == "Pro změnu uživatele vyberte možnost níže")
+                {
+                    product.UserId = null;
+                    string idNumber = null;
+                }
+                else
+                {
+                    string idNumber = product.UserId.Substring(4, 9);
+                    product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+                }
+
+                
+
                 context.Add(product);
                 await context.SaveChangesAsync(); 
                 return RedirectToAction("Index");
@@ -68,9 +93,22 @@ namespace EvidencePojisteni.Controllers
             {
                 return NotFound();
             }
+
+            List<string> userDetails = new List<string>();
             var users = context.Users.ToList();
-            SelectList list = new SelectList(users, "Id", "IdNumber");
-            ViewBag.UserId = list;
+            userDetails.Add("Pro změnu uživatele vyberte možnost níže");
+            foreach (var user in users)
+            {
+                var currentUser = await userManager.IsInRoleAsync(user, "admin");
+                if (!currentUser)
+                {
+                    userDetails.Add($"RČ: {user.IdNumber} - {user.FirstName} {user.LastName}");
+                    // bylo by možné přidávat rovnou do SelectList??????
+                }
+
+            }
+            SelectList list = new SelectList(userDetails);
+            ViewBag.AllUsers = list;
 
             ViewBag.returnUrl = Request.Headers["Referer"].ToString();
 
@@ -89,6 +127,26 @@ namespace EvidencePojisteni.Controllers
             {
                 try
                 {
+                    // ! POZOR, pokud uživatel provede EDIT a nezvolí rodné číslo, původní rodné číslo u produktu se odstraní!!!!!!
+                    var obsahuje = context.Products.Where(x => x.UserId != null && x.ProductId == product.ProductId);
+
+                    
+                    if (obsahuje != null && product.UserId == "Pro změnu uživatele vyberte možnost níže")
+                    {
+                        product.UserId = null;
+                        string idNumber = null;
+                    }
+                    else if (product.UserId == "Pro změnu uživatele vyberte možnost níže")
+                    {
+                        product.UserId = context.Users.Where(x => x.Products.Contains(product)).First().Id;
+                        string idNumber = context.Users.Where(x => x.Products.Contains(product)).First().IdNumber;
+                    }
+                    else
+                    {
+                        string idNumber = product.UserId.Substring(4, 9);
+                        product.UserId = context.Users.Where(user => user.IdNumber == idNumber).First().Id;
+                    }
+
                     context.Update(product);
                     await context.SaveChangesAsync();
                 }

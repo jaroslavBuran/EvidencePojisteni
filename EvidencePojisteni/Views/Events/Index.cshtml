@@ -1,4 +1,4 @@
-﻿@model EvidencePojisteni.Models.Events.EventInfoViewModel
+﻿@model IEnumerable<EvidencePojisteni.Models.InsuranceEvents.InsuranceEvent>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,40 +6,52 @@
 
 <h1>Index</h1>
 
-@using (Html.BeginForm("Index", "Events"))
-{
-  @Html.DropDownListFor(s => s.SelectedItem, ViewBag.Users as SelectList)
-      <input type="submit"/>
-}
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-@if (Model != null)
-{
-    <p>@Model.EventId</p>
-    <p>@Model.EventName</p>
-    <p>@Model.EventDescription</p>
-}
-else
-{
-    <p>Zatím nic bráško</p>
-}
 
-<table class="table">
+<table class="table" style="border: 1px solid black; background-color: silver">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventId)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.EventDescription)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Product.User.IdNumber)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-
+@foreach (var item in Model){
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDescription)
+            </td>
+            <td>
+                <a asp-controller="Account" asp-action="Detail" asp-route-id="@item.Product.UserId">
+                    @Html.DisplayFor(modelItem => item.Product.User.IdNumber)
+                </a>
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.EventId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.EventId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.EventId">Delete</a>
+            </td>
+        </tr>
 }
     </tbody>
 </table>

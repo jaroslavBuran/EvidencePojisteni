@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using EvidencePojisteni.Data;
+using EvidencePojisteni.Models.InsuranceEvents;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EvidencePojisteni.Data;
-using EvidencePojisteni.Models.Events;
-using EvidencePojisteni.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EvidencePojisteni.Controllers
 {
@@ -21,32 +19,15 @@ namespace EvidencePojisteni.Controllers
         }
 
         // GET: Events
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var users = context.Users.ToList();
-            
+
             SelectList list = new SelectList(users, "Id", "IdNumber");
             ViewBag.Users = list;
 
-            return View();
-        }
-        [HttpPost]
-        public async Task<IActionResult> Index(EventInfoViewModel model)
-        {
-            var userId = model.SelectedItem;
+            List<InsuranceEvent> events = context.InsuranceEvents.Include(x => x.Product).ToList();
 
-            var events = context.Events.Where(m => m.Product.UserId == userId).ToList(); //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-            if (events.Count == 0)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return RedirectToAction("Details", new { id = events[0].EventId });
-            }
-           
-            // zde je problém, view si žádá EventInfoViewModel a já posílám Event, nutno fixnout (použití kolekce<Event> ? ale jak pak řešit ten viewbag? přidat do modelu event prop SelectedItem?)
             return View(events);
         }
 
@@ -58,14 +39,14 @@ namespace EvidencePojisteni.Controllers
                 return NotFound();
             }
 
-            var @event = await context.Events
+            var insuranceEvent = await context.InsuranceEvents.Include(x => x.Product.User)
                 .FirstOrDefaultAsync(m => m.EventId == id);
-            if (@event == null)
+            if (insuranceEvent == null)
             {
                 return NotFound();
             }
 
-            return View(@event);
+            return View(insuranceEvent);
         }
 
         // GET: Events/Create
@@ -79,15 +60,15 @@ namespace EvidencePojisteni.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EventId,EventName,EventDescription")] Event @event)
+        public async Task<IActionResult> Create([Bind("EventId,EventName,EventDescription")] InsuranceEvent insuranceEvent)
         {
             if (ModelState.IsValid)
             {
-                context.Add(@event);
+                context.Add(insuranceEvent);
                 await context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(insuranceEvent);
         }
 
         // GET: Events/Edit/5
@@ -98,7 +79,7 @@ namespace EvidencePojisteni.Controllers
                 return NotFound();
             }
 
-            var @event = await context.Events.FindAsync(id);
+            var @event = await context.InsuranceEvents.FindAsync(id);
             if (@event == null)
             {
                 return NotFound();
@@ -111,9 +92,9 @@ namespace EvidencePojisteni.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventName,EventDescription")] Event @event)
+        public async Task<IActionResult> Edit(int id, [Bind("EventId,EventName,EventDescription")] InsuranceEvent insuranceEvent)
         {
-            if (id != @event.EventId)
+            if (id != insuranceEvent.EventId)
             {
                 return NotFound();
             }
@@ -122,12 +103,12 @@ namespace EvidencePojisteni.Controllers
             {
                 try
                 {
-                    context.Update(@event);
+                    context.Update(insuranceEvent);
                     await context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EventExists(@event.EventId))
+                    if (!EventExists(insuranceEvent.EventId))
                     {
                         return NotFound();
                     }
@@ -138,7 +119,7 @@ namespace EvidencePojisteni.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(@event);
+            return View(insuranceEvent);
         }
 
         // GET: Events/Delete/5
@@ -149,7 +130,7 @@ namespace EvidencePojisteni.Controllers
                 return NotFound();
             }
 
-            var @event = await context.Events
+            var @event = await context.InsuranceEvents
                 .FirstOrDefaultAsync(m => m.EventId == id);
             if (@event == null)
             {
@@ -164,15 +145,15 @@ namespace EvidencePojisteni.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @event = await context.Events.FindAsync(id);
-            context.Events.Remove(@event);
+            var insuranceEvent = await context.InsuranceEvents.FindAsync(id);
+            context.InsuranceEvents.Remove(insuranceEvent);
             await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EventExists(int id)
         {
-            return context.Events.Any(e => e.EventId == id);
+            return context.InsuranceEvents.Any(e => e.EventId == id);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model EvidencePojisteni.Models.Events.Event
+﻿@model EvidencePojisteni.Models.InsuranceEvents.InsuranceEvent
 
 @{
     ViewData["Title"] = "Details";
@@ -21,6 +21,14 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.EventDescription)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Product.User.IdNumber)
+        </dt>
+        <dd class = "col-sm-10">
+            <a asp-controller="Account" asp-action="Detail" asp-route-id="@Model.Product.UserId">
+                @Html.DisplayFor(model => model.Product.User.IdNumber)
+            </a>  
         </dd>
     </dl>
 </div>
