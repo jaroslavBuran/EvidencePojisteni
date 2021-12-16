@@ -52,6 +52,12 @@ namespace EvidencePojisteni.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
+            List<InsuranceEvent> insuranceEvents = new List<InsuranceEvent>();
+            var products = context.Products.Include(x => x.ProductId).ToList(); //nutno vyřešit naplnění viewbag, už na to dnes nemám mentální kapacitu
+
+            SelectList list = new SelectList(products, "Id", "ProductId");
+            ViewBag.AllEvents = list;
+
             return View();
         }
 

@@ -1,6 +1,39 @@
 ﻿@{
     ViewData["Title"] = "Insura";
 }
-<div class="container text-center">
-    <h1>Hello there!</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col text-center">
+            @if (!this.User.Identity.IsAuthenticated)
+            {
+                <h1 class="display-1">Vítejte!</h1>
+            }
+            else
+            {
+                <h1 class="display-1">Vítejte, @ViewBag.Name!</h1>
+            }
+        </div>
+    </div>
+    <div class="row justify-content-center my-4">
+        <div class="col-4"><hr/></div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            @if (!this.User.Identity.IsAuthenticated)
+            {
+                <h1 class="display-4">Pro pokračování se prosím přihlašte.</h1>
+            }
+            else
+            {
+                <a class="weatherwidget-io" href="https://forecast7.com/cs/50d0814d44/prague/" data-label_1="POČASÍ" data-label_2="PRAHA" data-icons="Climacons Animated" data-days="3" data-theme="original" data-basecolor="#FFE0B2" data-textcolor="#000000" data-highcolor="#FF3D00" data-lowcolor="#01579B" data-suncolor="#FFAB00" >POČASÍ PRAHA</a>
+                <script>
+                    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+                </script>
+            }
+        </div>
+    </div>
 </div>
+
+
+
+
