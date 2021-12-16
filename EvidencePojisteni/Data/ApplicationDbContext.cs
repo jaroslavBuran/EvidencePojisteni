@@ -17,7 +17,5 @@ namespace EvidencePojisteni.Data
         }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<InsuranceEvent> InsuranceEvents { get; set; }
-
-        public virtual DbSet<TestModel> TestModels { get; set; }
     }
 }

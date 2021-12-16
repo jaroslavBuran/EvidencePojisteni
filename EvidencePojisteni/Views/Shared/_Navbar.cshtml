@@ -2,16 +2,15 @@
 
 <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <a class="navbar-brand" asp-controller="Home" asp-action="Index" >
         <img src="~/img/logo.png" alt="">
         </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-        <div class="col d-flex font-weight-bold">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
-          @if (this.User.IsInRole("admin"))
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @if (this.User.IsInRole("admin"))
                 {
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Clients" asp-action="ListClients">KLIENTI</a>
@@ -35,11 +34,15 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Product" asp-action="ListProducts">PLATNÁ POJIŠTĚNÍ</a>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">ŘEŠENÍ ŠKOD</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ŘEŠENÍ ŠKOD
+                        </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" asp-controller="Events" asp-action="Create">NOVÁ UDÁLOST</a></li>
+                        <li><a class="dropdown-item" asp-controller="Events" asp-action="Index">SEZNAM UDÁLOSTÍ</a></li>
+                    </ul>
                     </li>
-                    -->
                     <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Contacts">KONTAKTY</a>
                     </li>
@@ -47,19 +50,10 @@
                 else
                 {
                     <li class="nav-item">
-                        <a class="nav-link" href="#">KONTAKTY</a>
+                        <a class="nav-link" asp-controller="Home" asp-action="Contacts">KONTAKTY</a>
                     </li>
                 }
-               
-        
       </ul>
-      </div>
-      <!--
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success pr-5" type="submit">Search</button>
-      </form>
-      -->
       <div class="col d-flex justify-content-end">
       <partial name="_LoginPartial"/>
       </div>
