@@ -8,6 +8,6 @@ zatím implementováno:
 -rozpracovány pojistné události (80%)
 
 chybí:
--stylování (frontend jsem zatím vůbec neřešil => vzhled je zatím děs)
+-stylování (frontend jsem zatím skoro neřešil => vzhled je zatím děs)
 -rozdělení pojistníků x pojištěných
 -reporty (???)
