@@ -6,8 +6,8 @@ zatím implementováno:
 -admin role
 -pojistné produkty (implementace není úplně ideální, pro každého klienta se musí vždy zakládat úplně nový produkt)
 -rozpracovány pojistné události (80%)
+-stylování (20%)
 
 chybí:
--stylování (frontend jsem zatím skoro neřešil => vzhled je zatím děs)
 -rozdělení pojistníků x pojištěných
 -reporty (???)
