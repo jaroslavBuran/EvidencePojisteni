@@ -4,11 +4,11 @@ namespace EvidencePojisteni.Models
 {
     public class LoginViewModel
     {
-        [Required]
-        [EmailAddress(ErrorMessage = "Neplatná emailová adresa")]
+        [Required(ErrorMessage = "Email musí být vyplněn!")]
+        [EmailAddress(ErrorMessage = "Neplatná emailová adresa!")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Heslo musí být vyplněno!")]
         [DataType(DataType.Password)]
         [Display(Name = "Heslo")]
         public string Password { get; set; }
