@@ -44,7 +44,7 @@ namespace EvidencePojisteni.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Neplatné přihlašovací údaje.");
+                    ModelState.AddModelError("LogOnError", "Neplatné přihlašovací údaje!");
                     return View(model);
                 }
             }
@@ -133,9 +133,8 @@ namespace EvidencePojisteni.Controllers
                 return NotFound();
             }
 
-            var model = new EditViewModel
+            var model = new RegisterViewModel
             {
-                Id = user.Id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -147,7 +146,7 @@ namespace EvidencePojisteni.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditViewModel model)
+        public async Task<IActionResult> Edit(RegisterViewModel model)
         {
             var user = await userManager.GetUserAsync(HttpContext.User);
             if (user == null)
@@ -159,6 +158,11 @@ namespace EvidencePojisteni.Controllers
                 user.Email = model.Email;
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+
+                if (model.IdNumber != null)
+                {
+                    user.IdNumber = model.IdNumber;
+                }
 
                 var result = await userManager.UpdateAsync(user);
 
