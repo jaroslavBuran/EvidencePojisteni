@@ -9,5 +9,6 @@ zatím implementováno:
 -stylování (20%)
 
 chybí:
+- SPRÁVA ROLÍ!!!
 -rozdělení pojistníků x pojištěných
 -reporty (???)
