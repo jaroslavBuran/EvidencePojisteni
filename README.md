@@ -10,5 +10,5 @@ zatím implementováno:
 
 chybí:
 - SPRÁVA ROLÍ!!!
--rozdělení pojistníků x pojištěných
--reporty (???)
+- rozdělení pojistníků x pojištěných
+- reporty (???)
