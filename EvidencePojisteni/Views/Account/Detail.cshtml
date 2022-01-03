@@ -4,33 +4,58 @@
     ViewData["Title"] = "Detail účtu";
 }
 
-<div class="card">
-            <div class="card-header">
-                Id klienta: @Html.DisplayFor(model => model.Id)
-            </div>
-            <div class="card-body">
-                @Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)
-                @Html.DisplayFor(model => model.Email)
-            </div>
-            <div class="card-footer">
-                <form asp-controller="Account" asp-action="Delete" asp-route-id="@Model.Id" method="post">
-                    <a class="btn btn-outline-success" asp-controller="Account" asp-action="Edit" asp-route-id="@Model.Id">Upravit</a>
-                    <span id="confirmDeleteSpan" style="display:none">
-                        <span class="font-weight-bold">Opravdu chcete odstranit svůj účet?</span>
-                        <button type="submit" class="btn btn-outline-danger">Ano</button>
-                        <a href="#" class="btn btn-outline-primary" onclick="confirmSelfDelete(false)">Ne</a>
-                    </span>
-
-                    <span id="deleteSpan">
-                        <a href="#" class="btn btn-outline-danger" onclick="confirmSelfDelete(true)">Odstranit</a>
-                    </span>
-                </form>
-            </div>
+<div class="container">
+    <div class="row mt-4 text-center">
+        <h1 class="mb-0">Detail účtu</h1>
+    </div>
+    <div class="row justify-content-center mb-2">
+        <div class="col-3 col-md-1">
+            <hr class="mb-md-5" />
         </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <table class="table table-striped">
+                <tbody>
+                    <tr>
+                        <th scope="row">ID:</th>
+                        <td class="text-center fw-bold">@Html.DisplayFor(model =>model.Id)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Rodné číslo:</th>
+                        <td class="text-center">@Html.DisplayFor(model =>model.IdNumber)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Jméno:</th>
+                        <td class="text-center">@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email:</th>
+                        <td class="text-center">@Html.DisplayFor(model =>model.Email)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 text-center">
+            <form asp-controller="Account" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                <a class="btn btn-outline-success btn-lg" asp-controller="Account" asp-action="Edit" asp-route-id="@Model.Id">Upravit</a>
+                <span id="confirmDeleteSpan" style="display:none">
+                    <span class="fw-bold">Opravdu chcete odstranit svůj účet?</span>
+                        <button type="submit" class="btn btn-outline-danger btn-lg">Ano</button>
+                    <a href="#" class="btn btn-outline-primary btn-lg" onclick="confirmSelfDelete(false)">Ne</a>
+                </span>
 
-
+                <span id="deleteSpan">
+                    <a href="#" class="btn btn-outline-danger btn-lg" onclick="confirmSelfDelete(true)">Odstranit účet</a>
+                </span>
+                <!--určitě by bylo vhodné implementovat i změnu hesla-->
+            </form>
+        </div>
+    </div>
+</div>
   
-<a asp-controller="Home" asp-action="Index">Domů</a>
 
 @section Scripts{
     <script src="~/js/deleteConfirm.js"></script>

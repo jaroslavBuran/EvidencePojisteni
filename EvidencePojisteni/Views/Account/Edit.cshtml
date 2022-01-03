@@ -1,48 +1,75 @@
-﻿@model EditViewModel
+﻿@model RegisterViewModel
 
 @{
     ViewData["Title"] = "Změna údajů";
 }
 
-<h1>Edit</h1>
-
-<h4>TestModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div class="form-group">
-                <label asp-for="Id" class="control-label"></label>
-                <input asp-for="Id" disabled class="form-control" tabindex="-1"/>
-            </div>
-            <div class="form-group">
-                <label asp-for="IdNumber" class="control-label"></label>
-                <input asp-for="IdNumber" disabled class="form-control" tabindex="-1"/>
-            </div>
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastName" class="control-label"></label>
-                <input asp-for="LastName" class="form-control" />
-                <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container">
+    <form method="post">
+    <div class="row mt-4 text-center">
+        <h1 class="mb-0">Úpravy účtu</h1>
     </div>
-</div>
-
-<div>
-    <a asp-action="Detail">Zpět</a>
+    <div class="row justify-content-center mb-2">
+        <div class="col-3 col-md-1">
+            <hr class="mb-md-5" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <div class="form-group mb-2 mb-md-0">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" placeholder="jmeno@email.cz"/>
+                <span asp-validation-for="Email" class="text-danger fw-bold"></span>
+            </div>
+        </div>
+        <hr class="mt-3 my-md-5" />
+    </div>
+    <div class="row">
+        <div class="col mb-2 mb-md-3">
+            <h3>Osobní údaje</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="form-group">
+                    @if (this.User.IsInRole("admin"))
+                    {
+                        <label asp-for="IdNumber"></label>
+                        <input asp-for="IdNumber" class="form-control" placeholder="987654321"/>
+                        <span asp-validation-for="IdNumber" class="text-danger fw-bold"></span>
+                    }
+                    else
+                    {
+                        <label asp-for="IdNumber"></label>
+                        <input asp-for="IdNumber" class="form-control" placeholder="987654321" disabled tabindex="-1"/>
+                        <span asp-validation-for="IdNumber" class="text-danger fw-bold"></span>
+                    }
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md">
+            <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="Alfons"/>
+                <span asp-validation-for="FirstName" class="text-danger fw-bold"></span>
+            </div>
+        </div>
+        <div class="col-12 col-md">
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName" class="form-control" placeholder="Mucha"/>
+                <span asp-validation-for="LastName" class="text-danger fw-bold"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-5 justify-content-center">
+        <div class="col text-center">
+            <button type="submit" class="btn btn-outline-success btn-lg fw-bold">Uložit</button>
+            <a asp-action="Detail" class="btn btn-outline-danger btn-lg fw-bold">Zrušit</a>
+        </div>
+    </div>
+    </form>
 </div>
 
 @section Scripts {
