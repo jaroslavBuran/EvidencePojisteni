@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EvidencePojisteni.Controllers
 {
-    [Authorize]
+    [Authorize] //asi pak pouze pro "admin" roli
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> roleManager;
