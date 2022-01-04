@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<IdentityRole>
+
+<h1>Všechny role</h1>
+
+@if (Model.Any())
+{
+    <a asp-action="CreateRole" class="btn btn-primary" style="width: auto">Přidat roli</a>
+    @foreach (var role in Model)
+   {
+       <div class="card">
+            <div class="card-header">
+                ID Role: @role.Id
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">@role.Name</h5>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary">Edit</a>
+                <a class="btn btn-primary">Delete</a>
+            </div>
+        </div> 
+   }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            Zatím žádné role k dispozici
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Použijte tlačítko níže pro přidání role
+            </h5>
+            <a asp-action="CreateRole" class="btn btn-primary" style="width: auto">Přidat roli</a>
+        </div>
+    </div>    
+}

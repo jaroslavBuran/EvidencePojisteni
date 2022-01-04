@@ -1,0 +1,16 @@
+﻿@model AddRoleViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <form method="post">
+                <div class="form-group">
+                    <label asp-for="RoleName"></label>
+                    <input asp-for="RoleName" class="form-control" />
+                    <span asp-validation-for="RoleName" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Vytvořit roli</button>
+            </form>
+        </div>
+    </div>
+</div>

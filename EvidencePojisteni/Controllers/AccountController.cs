@@ -44,7 +44,7 @@ namespace EvidencePojisteni.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("LogOnError", "Neplatné přihlašovací údaje!");
+                    ModelState.AddModelError(string.Empty, "Neplatné přihlašovací údaje!");
                     return View(model);
                 }
             }
@@ -111,6 +111,7 @@ namespace EvidencePojisteni.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
@@ -121,9 +122,16 @@ namespace EvidencePojisteni.Controllers
             }
 
             var user = await userManager.FindByIdAsync(id);
+
+            if (TempData["Success"] != null)
+            {
+                ViewBag.Message = TempData["Success"].ToString();
+            }
+            
             return View(user);
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
@@ -144,6 +152,7 @@ namespace EvidencePojisteni.Controllers
             return View(model);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(RegisterViewModel model)
@@ -180,6 +189,7 @@ namespace EvidencePojisteni.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Delete(string id)
         {
@@ -223,5 +233,42 @@ namespace EvidencePojisteni.Controllers
             return View(user);
         }
 
+        [Authorize]
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+                await signInManager.RefreshSignInAsync(user);
+
+                TempData["Success"] = "Heslo úspěšně změněno!";
+                return RedirectToAction("Detail");
+            }
+
+            return View(model);
+        }
     }
 }
