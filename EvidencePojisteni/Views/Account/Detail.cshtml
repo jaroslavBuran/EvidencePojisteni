@@ -8,11 +8,19 @@
     <div class="row mt-4 text-center">
         <h1 class="mb-0">Detail účtu</h1>
     </div>
-    <div class="row justify-content-center mb-2">
+    <div class="row justify-content-center">
         <div class="col-3 col-md-1">
-            <hr class="mb-md-5" />
+            <hr class="mb-md-3" />
         </div>
     </div>
+    @if (ViewBag.Message != null)
+    {
+        <div class="row mb-3 text-white justify-content-center">
+            <div class="col-8 col-md-4 text-center bg-success rounded">
+                <h4 class="mb-0">@ViewBag.Message</h4>
+            </div>  
+        </div>
+    }
     <div class="row justify-content-center">
         <div class="col-12 col-md-8">
             <table class="table table-striped">
@@ -38,9 +46,10 @@
         </div>
     </div>
     <div class="row justify-content-center">
-        <div class="col-12 col-md-8 text-center">
+        <div class="col-12 text-center">
             <form asp-controller="Account" asp-action="Delete" asp-route-id="@Model.Id" method="post">
                 <a class="btn btn-outline-success btn-lg" asp-controller="Account" asp-action="Edit" asp-route-id="@Model.Id">Upravit</a>
+                <a class="btn btn-outline-primary btn-lg" asp-controller="Account" asp-action="ChangePassword">Změnit heslo</a>
                 <span id="confirmDeleteSpan" style="display:none">
                     <span class="fw-bold">Opravdu chcete odstranit svůj účet?</span>
                         <button type="submit" class="btn btn-outline-danger btn-lg">Ano</button>
@@ -50,7 +59,6 @@
                 <span id="deleteSpan">
                     <a href="#" class="btn btn-outline-danger btn-lg" onclick="confirmSelfDelete(true)">Odstranit účet</a>
                 </span>
-                <!--určitě by bylo vhodné implementovat i změnu hesla-->
             </form>
         </div>
     </div>
